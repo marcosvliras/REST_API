@@ -11,6 +11,26 @@ API para cadastrar usuários e suas criptomoeadas escolhidas em um banco SQLite.
     - VALOR MAX DIA ANTERIOR
     - DATA
 
+API utilizada: https://www.mercadobitcoin.com.br/api-doc/
+
+# Endpoints
+
+## Register
+
+- Create
+- Update
+- Delete
+
+## Fetch
+
+- Pega informações do banco de dados (Read)
+
+## Get coin
+
+- Pega informações únicas sobre uma criptomoeada específica.
+
+em `rest_api/src/infra/coins.yml` você encontra as abreviações de cada cripto aceita.
+
 # ESTRUTURA
 
 ```
