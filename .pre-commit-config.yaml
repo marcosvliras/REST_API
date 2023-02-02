@@ -1,0 +1,25 @@
+repos:
+-   repo: local
+    hooks:
+      - id: pydocstyle
+        name: pydocstyle
+        entry: pydocstyle
+        language: system
+        stages: [commit]
+-   repo: local
+    hooks:
+      - id: pycodestyle
+        name: pycodestyle
+        entry: pycodestyle
+        language: system
+        stages: [commit]
+        types: [python]
+-   repo: local
+    hooks:
+    - id: pytest
+      name: pytest
+      language: system
+      entry: python3 -m pytest --cov=tests --cov-report html:cov_html
+      always_run: true
+      pass_filenames: false
+      stages: [commit]
