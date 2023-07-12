@@ -17,7 +17,7 @@ router = APIRouter()
     description="register your user on the database",
     response_model=RegisterResponse,
 )
-def register(user: User):
+async def register(user: User):
     """Register."""
     with open("./src/infra/coins.yml", "r") as file:
         try:
@@ -27,7 +27,7 @@ def register(user: User):
             raise exc
 
     consumer = Consumer()
-    response = consumer.get(user.symbol)
+    response = await consumer.get(user.symbol)
     coin = coins[f"{user.symbol}"]
     high = response["ticker"]["buy"]
     low = response["ticker"]["sell"]

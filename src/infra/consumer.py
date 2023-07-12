@@ -18,7 +18,7 @@ class Consumer(ConsumerInterface):
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def get(self, coin: str):
+    async def get(self, coin: str):
         """Get info about the chosen coin.
 
         Parameters
@@ -29,7 +29,7 @@ class Consumer(ConsumerInterface):
         url = self.url.replace("VALUE_OF_COIN", coin)
         if self.validate_url(url):
             try:
-                r = requests.get(url)
+                r = await requests.get(url)
                 if r.status_code == 200:
                     return r.json()
             except Exception as e:

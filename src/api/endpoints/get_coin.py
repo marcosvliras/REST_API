@@ -10,10 +10,10 @@ router = APIRouter()
 @router.get(
     "/get", description="Get info about the coin", response_model=GetResponse
 )
-def get(coin: str):
+async def get(coin: str):
     """Get coin."""
     consumer = Consumer()
-    response = consumer.get(coin)
+    response = await consumer.get(coin)
 
     date = response["ticker"]["date"]
     date = datetime.utcfromtimestamp(date).strftime("%d/%m/%Y")
