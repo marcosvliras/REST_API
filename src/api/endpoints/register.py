@@ -1,5 +1,5 @@
 """Register."""
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 import logging
 from src.infra import Consumer
 from src.api.models import User
@@ -7,7 +7,6 @@ from src.infra.sqlitedb import DbSqlite
 import yaml
 from datetime import datetime
 from src.api.models import RegisterResponse
-from typing import Optional
 
 
 router = APIRouter()
@@ -52,23 +51,3 @@ def register(user: User):
         date=date,
     )
     return r
-
-
-@router.delete("/register", description="Delete user")
-def delete(
-    user_name: str = Query(title="USER NAME"),
-    symbol: Optional[str] = Query(None, title="Symbol of a cripto"),
-):
-    """Delete."""
-    db = DbSqlite()
-    db.delete(user_name=user_name, symbol=symbol)
-
-
-@router.put("/register", description="Updated the User Name")
-def update(
-    user_name: str = Query(title="USER NAME"),
-    new_user_name: str = Query(title="New USER NAME"),
-):
-    """Update."""
-    db = DbSqlite()
-    db.update(user_name=user_name, new_user_name=new_user_name)

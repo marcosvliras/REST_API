@@ -1,7 +1,7 @@
 """Main."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import router
+from src.api import router
 from logging import StreamHandler, INFO
 import logging
 import uvicorn
@@ -25,4 +25,4 @@ app.add_middleware(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

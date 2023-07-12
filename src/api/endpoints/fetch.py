@@ -6,9 +6,16 @@ from src.infra.sqlitedb import DbSqlite
 router = APIRouter()
 
 
-@router.get("/fetch", description="Get info from the database.")
+@router.get(
+    "/fetch",
+    description="""Get info from the database."""
+    """If all=true, user_name and user_id are not necessary.""",
+)
 def fetch(
-    user_name: Optional[str] = Query(None, title="User Name"),
+    user_name: Optional[str] = Query(
+        None,
+        title="User Name",
+    ),
     user_id: Optional[str] = Query(None, title="User ID"),
     all: Optional[bool] = Query(True, title="Get all database"),
 ):
