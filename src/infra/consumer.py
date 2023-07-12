@@ -12,7 +12,7 @@ class Consumer(ConsumerInterface):
         """Construct."""
         ConsumerInterface.__init__(self)
         self.url = "https://www.mercadobitcoin.net/api/VALUE_OF_COIN/ticker/"
-        with open('./src/infra/coins.yml', 'r') as file:
+        with open("./src/infra/coins.yml", "r") as file:
             try:
                 self.coins = yaml.load(file, Loader=yaml.loader.SafeLoader)
             except yaml.YAMLError as exc:
@@ -26,17 +26,17 @@ class Consumer(ConsumerInterface):
         coin: str
             Coin symbol. Must be present in infra/coins.yml
         """
-        url = self.url.replace('VALUE_OF_COIN', coin)
+        url = self.url.replace("VALUE_OF_COIN", coin)
         if self.validate_url(url):
             try:
                 r = requests.get(url)
                 if r.status_code == 200:
                     return r.json()
             except Exception as e:
-                logging.info(e)
+                logging.error(e)
         else:
             msg = f"URL error: {url} check this out."
-            logging.info(msg)
+            logging.error(msg)
             raise ValueError(msg)
 
     def validate_url(self, url: str) -> bool:
@@ -50,7 +50,7 @@ class Consumer(ConsumerInterface):
             Strings present in infra/coins.yml suported by the mercado
             bitcoin API
         """
-        coin = url.split('/')[-3]
+        coin = url.split("/")[-3]
         coins = list(self.coins.keys())
 
         if coin in coins:
@@ -63,6 +63,8 @@ class Consumer(ConsumerInterface):
             #     logging.info(e)
             #     return False
         else:
-            raise ValueError(f"'{coin}' must be present in coins supported by "
-                             f"Mercado bitcoin API. Check this on"
-                             f"infra/coins.yml")
+            raise ValueError(
+                f"'{coin}' must be present in coins supported by "
+                f"Mercado bitcoin API. Check this on"
+                f"infra/coins.yml"
+            )

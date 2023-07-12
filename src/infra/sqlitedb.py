@@ -9,7 +9,7 @@ import logging
 class DbSqlite(DbInterface):
     """DBSQlite."""
 
-    def __init__(self, db_name: str = 'db') -> None:
+    def __init__(self, db_name: str = "db") -> None:
         """Construct."""
         DbInterface.__init__(self)
         self.db_name = db_name
@@ -28,7 +28,7 @@ class DbSqlite(DbInterface):
             )
         """
 
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(query)
         cursor.close()
@@ -39,7 +39,7 @@ class DbSqlite(DbInterface):
             SELECT DISTINCT USER_ID FROM COINS
         """
 
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -63,7 +63,7 @@ class DbSqlite(DbInterface):
             WHERE USER_NAME == '{user_name}'
         """
 
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(select_query)
         rows = cursor.fetchall()
@@ -88,7 +88,7 @@ class DbSqlite(DbInterface):
             WHERE USER_NAME == '{user_name}' and SYMBOL == '{symbol}'
         """
 
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(select_query)
         rows = cursor.fetchall()
@@ -125,7 +125,7 @@ class DbSqlite(DbInterface):
             select_query = """
                 SELECT DISTINCT USER_ID FROM COINS
             """
-            conn = sqlite3.connect(self.db_name + '.sqlite')
+            conn = sqlite3.connect(self.db_name + ".sqlite")
             cursor = conn.cursor()
             cursor.execute(select_query)
             rows = cursor.fetchall()
@@ -134,9 +134,16 @@ class DbSqlite(DbInterface):
             cursor.close()
             return user_id
 
-    def insert_values(self, user_id: str, user_name: str, coin: str,
-                      symbol: str, valor_min: Union[int, float],
-                      valor_max: Union[int, float], date: str) -> None:
+    def insert_values(
+        self,
+        user_id: str,
+        user_name: str,
+        coin: str,
+        symbol: str,
+        valor_min: Union[int, float],
+        valor_max: Union[int, float],
+        date: str,
+    ) -> None:
         """Insert values in the table.
 
         Parameters
@@ -153,18 +160,18 @@ class DbSqlite(DbInterface):
 
         validation = self.validate_register_existence(user_name, symbol)
         if validation:
-            raise Exception('This register already exist.')
+            raise Exception("This register already exist.")
         else:
-            print("Insert Query...")
             logging.info(insert_query)
-            conn = sqlite3.connect(self.db_name + '.sqlite')
+            conn = sqlite3.connect(self.db_name + ".sqlite")
             cursor = conn.cursor()
             cursor.execute(insert_query)
             conn.commit()
             cursor.close()
 
-    def select(self, user_name: str = None, user_id: str = None,
-               all: bool = False) -> None:
+    def select(
+        self, user_name: str = None, user_id: str = None, all: bool = False
+    ) -> None:
         """Select data from the database.
 
         Parameters
@@ -179,18 +186,20 @@ class DbSqlite(DbInterface):
             """
         else:
             if user_name is None and user_id is None:
-                raise ValueError(f"You must pass either the UserName"
-                                 f"or UserID. Or even pass all as True")
+                raise ValueError(
+                    f"You must pass either the UserName"
+                    f"or UserID. Or even pass all as True"
+                )
 
-            colum = 'USER_NAME' if user_name is not None else 'USER_ID'
+            colum = "USER_NAME" if user_name is not None else "USER_ID"
             filter_by = user_name if user_name is not None else user_id
             select_query = f"""
                 SELECT * FROM COINS
                 WHERE {colum} == '{filter_by}'
             """
 
-        print(select_query)
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        logging.info(select_query)
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(select_query)
         rows = cursor.fetchall()
@@ -216,8 +225,8 @@ class DbSqlite(DbInterface):
                 DELETE FROM COINS
                 WHERE USER_NAME == '{user_name}' and SYMBOL == '{symbol}'
             """
-        print(delete_query)
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        logging.info(delete_query)
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(delete_query)
         conn.commit()
@@ -240,8 +249,8 @@ class DbSqlite(DbInterface):
             SET USER_NAME = '{new_user_name}'
             WHERE USER_NAME = '{user_name}'
         """
-        print(update_query)
-        conn = sqlite3.connect(self.db_name + '.sqlite')
+        logging.info(update_query)
+        conn = sqlite3.connect(self.db_name + ".sqlite")
         cursor = conn.cursor()
         cursor.execute(update_query)
         conn.commit()
@@ -253,16 +262,16 @@ class DbSqlite(DbInterface):
 
         Parameters
         ----------
-        data: list
+        data: list.
         """
         colunas = [
-            'USER_ID',
-            'USER_NAME',
-            'COIN',
-            'SYMBOL',
-            'VALOR_MIN',
-            'VALOR_MAX',
-            'DATA'
+            "USER_ID",
+            "USER_NAME",
+            "COIN",
+            "SYMBOL",
+            "VALOR_MIN",
+            "VALOR_MAX",
+            "DATA",
         ]
 
         final_dict = {}
